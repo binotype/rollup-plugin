@@ -16,7 +16,7 @@ test('transforms matching files by parsing their text content', () => {
 
   assert.deepEqual(parserCalls, [{ text: 'hello', id: '/content/page.typeup' }]);
   assert.equal(result.code, 'export default {"html":"<p>hello</p>"};');
-  assert.equal('map' in result, false);
+  assert.equal(result.map, undefined);
 });
 
 test('does not transform files with non-matching extensions', () => {
