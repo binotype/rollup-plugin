@@ -19,7 +19,9 @@ function rollupPlugin(parser, options = {}) {
       try {
         serialized = JSON.stringify(parsed);
       } catch (error) {
-        throw new TypeError(`Parser result for "${id}" is not JSON-serializable.`);
+        throw new TypeError(
+          `Parser result for "${id}" is not JSON-serializable: ${error.message}`
+        );
       }
 
       return {
