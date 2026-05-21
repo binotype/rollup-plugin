@@ -10,11 +10,13 @@ test('transforms matching files by parsing their text content', () => {
     return { html: `<p>${text}</p>` };
   };
   const plugin = rollupPlugin(parser);
+  assert.equal(plugin.name, 'text-parser');
 
   const result = plugin.transform('hello', '/content/page.typeup');
 
   assert.deepEqual(parserCalls, [{ text: 'hello', id: '/content/page.typeup' }]);
   assert.equal(result.code, 'export default {"html":"<p>hello</p>"};');
+  assert.equal('map' in result, false);
 });
 
 test('does not transform files with non-matching extensions', () => {

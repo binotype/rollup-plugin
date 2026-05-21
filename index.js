@@ -8,7 +8,7 @@ function rollupPlugin(parser, options = {}) {
   const extensions = options.extensions || ['.typeup'];
 
   return {
-    name: 'binotype-parser',
+    name: 'text-parser',
     transform(source, id) {
       if (!extensions.some((extension) => id.endsWith(extension))) {
         return null;
@@ -16,8 +16,7 @@ function rollupPlugin(parser, options = {}) {
 
       const parsed = parser(source, id);
       return {
-        code: `export default ${JSON.stringify(parsed)};`,
-        map: { mappings: '' }
+        code: `export default ${JSON.stringify(parsed)};`
       };
     }
   };
