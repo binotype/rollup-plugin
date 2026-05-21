@@ -15,8 +15,15 @@ function rollupPlugin(parser, options = {}) {
       }
 
       const parsed = parser(source, id);
+      let serialized;
+      try {
+        serialized = JSON.stringify(parsed);
+      } catch (error) {
+        throw new TypeError(`Parser result for "${id}" is not JSON-serializable.`);
+      }
+
       return {
-        code: `export default ${JSON.stringify(parsed)};`
+        code: `export default ${serialized};`
       };
     }
   };

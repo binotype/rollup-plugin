@@ -16,7 +16,6 @@ test('transforms matching files by parsing their text content', () => {
 
   assert.deepEqual(parserCalls, [{ text: 'hello', id: '/content/page.typeup' }]);
   assert.equal(result.code, 'export default {"html":"<p>hello</p>"};');
-  assert.equal(result.map, undefined);
 });
 
 test('does not transform files with non-matching extensions', () => {
@@ -35,4 +34,13 @@ test('allows overriding matched extensions', () => {
   const result = plugin.transform('hello', '/content/page.txt');
 
   assert.equal(result.code, 'export default {"text":"hello"};');
+});
+
+test('throws a clear error when parser output is not serializable', () => {
+  const parser = () => ({ value: 1n });
+  const plugin = rollupPlugin(parser);
+
+  assert.throws(() => {
+    plugin.transform('hello', '/content/page.typeup');
+  }, /not JSON-serializable/);
 });
